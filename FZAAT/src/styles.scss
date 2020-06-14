@@ -3,6 +3,7 @@
 
 
 
+
 // some basic resets 
 
 body { 
@@ -17,4 +18,37 @@ body {
 }
 .flex-spacer {
     flex: 1 1 auto;
+    }
+
+.background-primary {
+    background-color: #ff9b33;
+  }
+.background-accent {
+      background-color: rgb(110, 5, 63);
+    }
+.text-floral-white {
+      color: floralwhite;
+    }
+
+
+
+    .example-container {
+      height: 270px;
+      overflow: auto;
+    }
+    
+    table {
+      width: 100%;
+    }
+    
+    th.mat-header-cell {
+      font-weight: bold;
+    }
+    
+    .mat-table-sticky {
+      border-top: 1px solid #e0e0e0;
+    }    
+
+    th.mat-sort-header-sorted {
+      color: black;
     }

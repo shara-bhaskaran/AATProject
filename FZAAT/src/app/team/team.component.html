@@ -1,0 +1,240 @@
+<div class="container"
+    fxLayout="column"
+    fxLayoutGap="5px">
+        
+    <div class="d-flex flex-row" fxFlexOffset="20px" *ngIf="!profile && !updatedProfile" [@expand] >
+        <h3>Create Profile</h3>        
+        <!--<p>{{ masters | json }} </p>-->
+        <form novalidate [formGroup]="profileForm" #fform="ngForm" (ngSubmit)="createProfile()">
+            <table width="50%">
+                <tr>
+                    <td><mat-form-field>
+                        <input matInput formControlName="staffid" placeholder="Staff ID" type="text" required>                
+                       <mat-error *ngIf="formErrors.staffid">{{formErrors.staffid}}</mat-error>
+                      </mat-form-field></td>
+                    <td><mat-form-field>
+                        <input matInput formControlName="staffName" placeholder="Staff Name" type="text" required>                  
+                        <mat-error *ngIf="formErrors.staffName">{{formErrors.staffName}}</mat-error>
+                      </mat-form-field></td>                    
+                    <td><mat-form-field>
+                        <mat-select placeholder="Role" formControlName="role">
+                            <mat-option *ngFor="let role of roles" [value]="role">
+                              {{ role }}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="formErrors.manager">{{formErrors.role}</mat-error>
+                        </mat-form-field></td>                      
+                </tr>
+                <tr>
+                   <td><mat-form-field>
+                        <mat-select placeholder="Organisation" formControlName="organisation">
+                            <mat-option *ngFor="let org of organisations" [value]="org">
+                              {{ org }}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="formErrors.manager">{{formErrors.organisation}</mat-error>
+                        </mat-form-field></td> 
+                    <td><mat-form-field>
+                            <mat-select placeholder="Manager" formControlName="manager">
+                                <mat-option *ngFor="let mgr of managers" [value]="mgr">
+                                    {{ mgr }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="formErrors.manager">{{formErrors.manager}}</mat-error>
+                        </mat-form-field></td>                     
+                    <td><mat-form-field>
+                        <input matInput formControlName="startDate" placeholder="Start Date" type="date" required>                  
+                        <mat-error *ngIf="formErrors.startDate">{{formErrors.startDate}}</mat-error>
+                      </mat-form-field></td>
+                    <td><mat-form-field>
+                        <input matInput formControlName="endDate" placeholder="End Date" type="date" required>                  
+                        <mat-error *ngIf="formErrors.endDate">{{formErrors.endDate}}</mat-error>
+                      </mat-form-field></td>
+                </tr>               
+                <tr>
+                    <td><mat-form-field>
+                        <input matInput formControlName="offshorerate" placeholder="Offshore Rate" type="number" required>                
+                       <mat-error *ngIf="formErrors.offshorerate">{{formErrors.offshorerate}}</mat-error>
+                      </mat-form-field></td>
+                    <td><mat-form-field>
+                        <input matInput formControlName="onsiterate" placeholder="Onsite Rate" type="number" required>                  
+                        <mat-error *ngIf="formErrors.onsiterate">{{formErrors.onsiterate}}</mat-error>
+                      </mat-form-field></td> 
+                      <td><mat-form-field>
+                        <input matInput formControlName="revisedrate" placeholder="Revised Rate" type="number">                  
+                        <mat-error *ngIf="formErrors.revisedrate">{{formErrors.revisedrate}}</mat-error>
+                      </mat-form-field></td>                                            
+                </tr>
+                <tr>
+                    <td><mat-form-field>
+                        <mat-select placeholder="Stauts" formControlName="status">
+                            <mat-option *ngFor="let stat of status" [value]="stat">
+                                {{ stat }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formErrors.status">{{formErrors.status}}</mat-error>
+                    </mat-form-field></td>
+                    <td><mat-form-field>
+                        <mat-select placeholder="Area" formControlName="area">
+                            <mat-option *ngFor="let x of area" [value]="x">
+                                {{ x }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formErrors.area">{{formErrors.area}}</mat-error>
+                    </mat-form-field></td>
+                                                               
+                </tr>
+            </table>  
+            <p><button type="submit" mat-button class="background-primary text-floral-white"
+                [disabled]="profileForm.invalid">Submit</button> </p>
+                      
+        </form>
+    </div>
+    <div *ngIf="updatedProfile" [@expand]>
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>            
+            <h4>New Profile Created</h4>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <dl>
+              <dt>Staff ID       :         {{updatedProfile.staffid}}</dt>
+              <dt>Name           :             {{updatedProfile.staffName}}</dt>
+              <dt>Role           :             {{updatedProfile.role}}</dt>
+              <dt>Joining Date   :     {{updatedProfile.startDate}}</dt>
+              <dt>Offshore Rate  :    {{updatedProfile.offshorerate}}</dt>
+              <dt>Onsite Rate    :      {{updatedProfile.onsiterate}}</dt>              
+            </dl>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    <div fxFlex  *ngIf="profile" [@expand] >
+        <mat-spinner>
+        </mat-spinner>
+        <h4>Creating the profile..</h4>
+      </div>
+    <div fxFlex fxFlexOffset="20px" class="form-size" >
+        <h3>Team</h3> 
+        <hr>
+    </div> 
+    <!---
+    <div fxFlex fxFlexOffset="20px" class="form-size" *ngIf="profiles && !updatedProfile" [@expand] class="table-responsive">
+        <table  class="table table-bordered" style="width:100%">
+            <thead class="thead-dark">
+              <tr>
+                <th>#</th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Organisation</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Manager</th>
+                <th>Off.Rate</th>
+                <th>On.Rate</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let profile of profiles">
+                <tr>
+                  <th scope="row">{{profile.ID}}</th>
+                  <td>{{profile.staffid}}</td>
+                  <td>{{profile.staffName}}</td>
+                  <td>{{profile.organisation}}</td>
+                  <td>{{profile.startDate}}</td>
+                  <td>{{profile.endDate}}</td>
+                  <td>{{profile.manager}}</td>
+                  <td>{{profile.offshorerate}}</td>
+                  <td>{{profile.onsiterate}}</td>
+                </tr>                
+              </tbody>
+         </table>   -->
+
+
+
+         <div fxFlex fxFlexOffset="20px" width="80%" *ngIf="profiles && !updatedProfile" [@expand]>
+            <p>{{ dataSource.status}} </p>
+            <mat-form-field>
+                <mat-label>Search</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="filter">
+              </mat-form-field>
+            <table mat-table [dataSource]="dataSource" matSort>
+              
+              <ng-container matColumnDef="#">
+                <th mat-header-cell *matHeaderCellDef> # </th>
+                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+              <!--  <td mat-footer-cell *matFooterCellDef> Total </td> -->
+              </ng-container>
+
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> ID </th>
+                <td mat-cell *matCellDef="let element"> {{element.staffid}} </td>
+              <!--  <td mat-footer-cell *matFooterCellDef> Total </td> -->
+              </ng-container>
+          
+              
+              <ng-container matColumnDef="staffName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.staffName}} </td>
+               <!-- <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency}} </td> -->
+              </ng-container>             
+
+              <ng-container matColumnDef="organisation">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Vendor </th>
+                <td mat-cell *matCellDef="let element"> {{element.organisation}} </td>
+               <!-- <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency}} </td> -->
+              </ng-container>
+
+              <ng-container matColumnDef="startDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> From </th>
+                <td mat-cell *matCellDef="let element"> {{element.startDate}} </td>
+               <!-- <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency}} </td> -->
+              </ng-container>
+
+              <ng-container matColumnDef="endDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> To </th>
+                <td mat-cell *matCellDef="let element"> {{element.endDate}} </td>
+               <!-- <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency}} </td> -->
+              </ng-container>
+
+              <ng-container matColumnDef="manager">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>  Manager </th>
+                <td mat-cell *matCellDef="let element"> {{element.manager}} </td>
+               <!-- <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency}} </td> -->
+              </ng-container>
+
+              <ng-container matColumnDef="offshorerate">
+                <th mat-header-cell *matHeaderCellDef> Off.Rate </th>
+                <td mat-cell *matCellDef="let element"> {{element.offshorerate}} </td>
+               <!-- <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency}} </td> -->
+              </ng-container>
+
+              <ng-container matColumnDef="onsiterate">
+                <th mat-header-cell *matHeaderCellDef> Ons.Rate </th>
+                <td mat-cell *matCellDef="let element"> {{element.onsiterate}} </td>
+               <!-- <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency}} </td> -->
+              </ng-container>
+
+              <ng-container matColumnDef="revisedrate">
+                <th mat-header-cell *matHeaderCellDef> Revi.Rate </th>
+                <td mat-cell *matCellDef="let element"> {{element.revisedrate}} </td>
+               <!-- <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency}} </td> -->
+              </ng-container>
+
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+               <!-- <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency}} </td> -->
+              </ng-container>
+
+              <ng-container matColumnDef="area">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Area </th>
+                <td mat-cell *matCellDef="let element"> {{element.area}} </td>
+               <!-- <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency}} </td> -->
+              </ng-container>
+          
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+             <!-- <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr> -->
+            </table>
+          </div>
+    </div> 
